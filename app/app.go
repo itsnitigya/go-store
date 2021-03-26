@@ -1,7 +1,7 @@
 package app
 
 import (
-	"fmt"
+	//"fmt"
 	"log"
 	"net/http"
 
@@ -14,14 +14,16 @@ type App struct {
 }
 
 // Initialize initializes the app with predefined configuration
-func (a *App) Initialize(config *config.Config) {
+func (a *App) Initialize() {
 	a.Router = mux.NewRouter()
 	a.setRouters()
 }
 
 func (a *App) setRouters() {
-	a.Post("/projects", a.handleRequest(handler.CreateProject))
-	a.Get("/projects/{title}", a.handleRequest(handler.GetProject))
+	a.Post("/set", a.handleRequest(handler.CreatePair))
+	a.Get("/get/{key}", a.handleRequest(handler.GetValue))
+	a.Get("/searchPrefix/{prefix}", a.handleRequest(handler.SearchPrefixValue))
+	a.Get("/searchSuffix/{suffix}", a.handleRequest(handler.SearchSuffixValue))
 }
 
 func (a *App) Get(path string, f func(w http.ResponseWriter, r *http.Request)) {
