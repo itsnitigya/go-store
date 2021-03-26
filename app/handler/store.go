@@ -2,21 +2,22 @@ package handler
 
 import (
 	"encoding/json"
-	"net/http"
 	"fmt"
-	"github.com/gorilla/mux"
+	"net/http"
 	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 var memory map[string]string
 
 func init() {
-	memory = make(map[string] string)
+	memory = make(map[string]string)
 }
 
 type Store struct {
-	Key string `json:"key"`
-	Value string  `json:"value"`
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 func CreatePair(w http.ResponseWriter, r *http.Request) {
@@ -28,8 +29,6 @@ func CreatePair(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(store.Key)
-	
 	defer r.Body.Close()
 
 	memory[store.Key] = store.Value
@@ -40,8 +39,8 @@ func CreatePair(w http.ResponseWriter, r *http.Request) {
 func GetValue(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	key := vars["key"]	
-	val := memory[key] 
+	key := vars["key"]
+	val := memory[key]
 
 	respondJSON(w, http.StatusOK, val)
 }
